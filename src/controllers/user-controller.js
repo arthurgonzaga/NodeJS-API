@@ -1,10 +1,8 @@
-'use strict'
-
-const db = require('../models')
-const User = db.User
+const { create } = require("../services/user-service")
 
 module.exports = {
-    createUser: (req, res) => {
+
+    createUser: async (req, res) => {
 
         // Validate the request
         if(!req.body.name){
@@ -14,17 +12,17 @@ module.exports = {
             )
         }
     
-        // Create the user
-        User.create(req.body)
-        .then(data => {
-            res.json(data)
-        })
-        .catch(err => {
+        try {
+            
+            var dataResult = await create(req.body)
+            res.json(dataResult)
+
+        } catch (error) {
             res.status(500).send({
-              message:
-                err.message || "Some error occurred while creating the User."
-            });
-          });
+                message: error.message
+            })
+        }
     
+
     }
 }
