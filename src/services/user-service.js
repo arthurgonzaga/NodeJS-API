@@ -5,12 +5,24 @@ const User = db.User
 
 module.exports = {
 
-    create: async(user)=>{
+    createU: async(user)=>{
         try {
-            var result = await User.create(user)
-            return result
+            return await User.create(user)
         }
         catch (error) {
+            throw new Error(error.message)
+        }
+    },
+    
+    deleteU: async (email)=>{
+        try {
+            var userFound = await User.findOne({where: {email: email}})
+            await userFound.destroy()
+            return {
+                status: 200,
+                message: "Deleted "+userFound.name+" successfully"
+            }
+        } catch (error) {
             throw new Error(error.message)
         }
     }
