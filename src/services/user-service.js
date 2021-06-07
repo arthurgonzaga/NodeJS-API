@@ -14,13 +14,13 @@ module.exports = {
         }
     },
     
-    deleteU: async (email)=>{
+    deleteU: async (firebase_id)=>{
         try {
-            var userFound = await User.findOne({where: {email: email}})
+            var userFound = await User.findOne({where: {firebase_id: firebase_id}})
             await userFound.destroy()
             return {
                 status: 200,
-                message: "Deleted "+userFound.name+" successfully"
+                message: "Deleted "+userFound.firebase_id+" successfully"
             }
         } catch (error) {
             throw new Error(error.message)
